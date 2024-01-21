@@ -1,12 +1,10 @@
 
 
-import 'package:app_popup_menu/app_popup_menu.dart';
+import 'package:find_people_flutter/data/source/firebase/firebase_helper.dart';
 import 'package:find_people_flutter/data/source/pref/my_preference.dart';
-import 'package:find_people_flutter/ui/page/updates_screen_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:find_people_flutter/ui/controller/updates_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../data/app_repository_impl.dart';
 import '../../data/model/user_data.dart';
@@ -32,7 +30,7 @@ class UpdateScreen extends StatelessWidget {
         backgroundColor: Colors.amberAccent,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text('Update', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+        title: const Text('Update', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
       ),
 
       body: Container(
@@ -45,20 +43,19 @@ class UpdateScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: InputText('Name', TextInputType.text, textEditingController, '', 15),
             ),
-            SizedBox(height: 16,),
+            const SizedBox(height: 16,),
             InkWell(
               onTap: ()async{
-                final check = await location.checkPermission();
                 final getLocation = await location.getCurrentLocation();
                 controller.clickUpdate(
                     UserData(id: MyPreference.getId()?? "", name: textEditingController.text, lat:getLocation.lat, long: getLocation.long));
                 final result = await AppRepositoryImpl.getAllUsers();
-                Get.offAll(() => MapsScreen(result));
-
+                //await FirebaseHelper.addUser( UserData(id: MyPreference.getId()?? "", name: textEditingController.text, lat:getLocation.lat, long: getLocation.long));
+                Get.back();
               },
               child: Container(
-                padding: EdgeInsets.all(16),
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.amberAccent

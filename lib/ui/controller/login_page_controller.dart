@@ -5,7 +5,6 @@ import 'package:find_people_flutter/data/source/pref/my_preference.dart';
 import 'package:get/get.dart';
 
 class LoginScreenController extends GetxController{
-  // final AppRepositoryImpl appRepositoryImpl = AppRepositoryImpl();
 
   void clickLogin(UserData userData){
     AppRepositoryImpl.addUser(userData);

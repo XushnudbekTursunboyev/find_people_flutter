@@ -1,19 +1,11 @@
 
 import 'dart:async';
-
-import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:find_people_flutter/data/model/user_data.dart';
 import 'package:find_people_flutter/data/source/pref/my_preference.dart';
-import 'package:find_people_flutter/ui/page/maps_screen_controller.dart';
-import 'package:find_people_flutter/utils/location_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:find_people_flutter/ui/controller/maps_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-
-import '../../data/app_repository_impl.dart';
-import '../../utils/app_lat_long.dart';
 
 class MapsScreen extends StatefulWidget {
   final List<UserData> users;
@@ -61,7 +53,7 @@ class _MapsScreenState extends State<MapsScreen> {
       mapObjects.add(
           PlacemarkMapObject(
               mapId: MapObjectId(i.toString()),
-              text: PlacemarkText(text: "${widget.users[i].name}", style: PlacemarkTextStyle(size: 12,placement: TextStylePlacement.bottom, offsetFromIcon: true)),
+              text: PlacemarkText(text: widget.users[i].name, style: const PlacemarkTextStyle(size: 12,placement: TextStylePlacement.bottom, offsetFromIcon: true)),
               icon: PlacemarkIcon.single(PlacemarkIconStyle(
                   scale: 0.2,
                   image: BitmapDescriptor.fromAssetImage('assets/images/maps_icon.png'))),
@@ -74,19 +66,14 @@ class _MapsScreenState extends State<MapsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: Colors.amberAccent,
+        centerTitle: true,
+        title: Text(widget.users.length == 1 ? widget.users[0].name : 'Users', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
         actions: [
           IconButton(onPressed: (){
-            Get.back();
-          }, icon: Icon(Icons.arrow_back_outlined, size: 24,)),
-          Spacer(),
-          // IconButton(onPressed: (){
-          //   controller.getBranches();
-          // }, icon: Icon(Icons.published_with_changes)),
-          IconButton(onPressed: (){
             Get.toNamed('/update');
-          }, icon: Icon(Icons.edit))
+          }, icon: const Icon(Icons.edit))
         ],
       ),
         body: YandexMap(
